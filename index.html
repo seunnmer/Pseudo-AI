@@ -57,28 +57,34 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 .final-figure img,.final-figure svg{max-width:520px;max-height:320px}
 .inline-input{display:flex;align-items:center;gap:10px;max-width:220px}
 .inline-input input{width:130px}
-.hint-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;overflow:visible}
+.hint-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;overflow:visible;min-width:330px}
 .hint-panel{border:1px solid var(--line);border-radius:18px;padding:18px;background:#f8fbff;min-height:118px;overflow:visible}
 .hint-btn{width:100%;background:#eef2ff;color:#1e3a8a}
 .hint-count{margin-top:10px;font-size:13px;color:var(--muted)}
-.hint-list{position:relative;width:100%;min-height:246px;margin-top:0;pointer-events:none;z-index:8;overflow:visible}
-.hint-item{display:none;position:relative;width:100%;height:246px;border:0;background:transparent;border-radius:0;padding:0;overflow:visible}
-.hint-item.show{display:block}
-.ai-hint-stage{position:relative;width:100%;height:246px;overflow:visible}
-.ai-robot-wrap{position:absolute;right:6px;bottom:0;width:106px;height:106px;opacity:0;transform:translateY(22px) scale(.96);z-index:2;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;animation:robotRise .44s cubic-bezier(.2,.8,.2,1) forwards}
-.hint-avatar{width:106px;height:auto;display:block;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;transform:none!important;animation:robotIdle 2.6s ease-in-out infinite .9s}
-.ai-robot-wrap::before,.ai-robot-wrap::after{content:"";position:absolute;top:27px;width:10px;height:13px;border-radius:999px;background:#bffcff;box-shadow:0 0 8px rgba(122,255,244,.75);z-index:3;pointer-events:none;animation:robotBlink 4.2s ease-in-out infinite 1.6s}
-.ai-robot-wrap::before{left:41px}.ai-robot-wrap::after{left:62px}
-.hint-bubble{position:absolute;left:0;top:8px;width:calc(100% - 18px);max-width:318px;background:#fff;border:1px solid #d9e6ff;border-radius:22px;padding:17px 19px;box-sizing:border-box;box-shadow:0 10px 22px rgba(37,99,235,.08);opacity:0;transform:translateY(10px) scale(.98);z-index:3;animation:bubbleAppear .28s ease forwards .38s}
-.hint-bubble::after{content:"";position:absolute;right:42px;bottom:-9px;width:16px;height:16px;background:#fff;border-right:1px solid #d9e6ff;border-bottom:1px solid #d9e6ff;transform:rotate(45deg)}
-.hint-bubble .body{font-size:15px;line-height:1.75;white-space:pre-line;min-height:24px;color:#111827;word-break:keep-all}
+.hint-list{position:relative;width:100%;min-height:350px;margin-top:0;pointer-events:none;z-index:8;overflow:visible}
+.hint-item{display:block;position:relative;width:100%;height:350px;border:0;background:transparent;border-radius:0;padding:0;overflow:visible}
+.ai-hint-stage{position:relative;width:100%;height:350px;overflow:visible}
+.ai-robot-wrap{position:absolute;right:6px;top:176px;width:128px;height:auto;z-index:2;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;opacity:0;transform:translateY(18px) scale(.98);animation:robotRise .42s cubic-bezier(.2,.8,.2,1) forwards}
+.ai-robot-wrap.idle-robot{right:18px;top:156px;width:118px}
+.hint-avatar{width:100%;height:auto;display:block;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;transform:none!important;animation:robotIdle 3.2s ease-in-out infinite .6s}
+.hint-bubble{position:absolute;left:0;top:8px;width:312px;max-width:312px;background:#fff;border:1px solid #d9e6ff;border-radius:24px;padding:18px 20px;box-sizing:border-box;box-shadow:0 8px 18px rgba(37,99,235,.045);opacity:0;transform:translateY(10px) scale(.98);z-index:4;animation:bubbleAppear .26s ease forwards .34s}
+.hint-bubble::after{content:"";position:absolute;right:48px;bottom:-10px;width:18px;height:18px;background:#fff;border-right:1px solid #d9e6ff;border-bottom:1px solid #d9e6ff;transform:rotate(45deg)}
+.hint-bubble .body{position:relative;font-size:15px;line-height:1.76;white-space:pre-wrap;min-height:24px;color:#111827;word-break:keep-all;letter-spacing:-.01em}
+.hint-bubble .ghost{visibility:hidden;white-space:pre-wrap}
+.hint-bubble .typed{position:absolute;left:0;top:0;width:100%;white-space:pre-wrap}
+.hint-bubble.idle{width:270px;max-width:270px;top:14px;left:22px;padding:14px 16px;border-color:#d7efe7;background:#fbfffd;box-shadow:0 6px 14px rgba(16,163,127,.035)}
+.hint-bubble.idle .body{font-size:14px;line-height:1.65;color:#315f54}
+.hint-bubble.idle::after{right:46px;border-right-color:#d7efe7;border-bottom-color:#d7efe7;background:#fbfffd}
+.ai-thinking-dots{display:inline-flex;gap:3px;margin-left:4px;vertical-align:middle}
+.ai-thinking-dots span{display:inline-block;width:4px;height:4px;border-radius:50%;background:#69bfa7;opacity:.45;animation:dotPulse 1.2s infinite ease-in-out}
+.ai-thinking-dots span:nth-child(2){animation-delay:.16s}.ai-thinking-dots span:nth-child(3){animation-delay:.32s}
 .hint-item.instant .ai-robot-wrap,.hint-item.instant .hint-bubble{opacity:1;transform:none;animation:none}
-.hint-item.instant .hint-avatar{animation:robotIdle 2.6s ease-in-out infinite}
-@keyframes robotRise{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.hint-item.instant .hint-avatar{animation:robotIdle 3.2s ease-in-out infinite}
+@keyframes robotRise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes bubbleAppear{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes robotIdle{0%,100%{transform:translateY(0);filter:brightness(1)}50%{transform:translateY(-4px);filter:brightness(1.04)}}
-@keyframes robotBlink{0%,88%,100%{transform:scaleY(1);opacity:.88}90%,94%{transform:scaleY(.14);opacity:.62}96%{transform:scaleY(1);opacity:.88}}
-@media(max-width:980px){.hint-side{position:relative;top:auto}.hint-list{min-height:230px}.hint-item,.ai-hint-stage{height:230px}.ai-robot-wrap{right:0;width:94px}.hint-avatar{width:94px}.hint-bubble{width:calc(100% - 10px);max-width:none}}.ai-robot-wrap{right:0;width:94px}.hint-avatar{width:94px}.hint-bubble{right:84px;bottom:82px;max-width:230px}}
+@keyframes robotIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes dotPulse{0%,80%,100%{opacity:.35;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+@media(max-width:980px){.hint-side{position:relative;top:auto;min-width:0}.hint-list{min-height:320px}.hint-item,.ai-hint-stage{height:320px}.ai-robot-wrap{right:8px;top:164px;width:108px}.ai-robot-wrap.idle-robot{right:14px;top:150px;width:104px}.hint-bubble{left:0;width:calc(100% - 34px);max-width:310px}.hint-bubble.idle{left:12px;width:calc(100% - 70px);max-width:270px}}
 .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:4px}
 .progress{font-size:14px;color:var(--muted)}
 .math-box{font-size:34px;font-weight:800;text-align:center;padding:26px 10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:24px;margin-bottom:18px}
@@ -503,10 +509,46 @@ function getFinalState(testId){
 
 function renderFigure(container,key,mode='learning'){ if(!key){ container.classList.add('hidden'); container.innerHTML=''; delete container.dataset.figure; return; } container.classList.remove('hidden'); container.classList.remove('learning-figure','final-figure'); container.classList.add(mode==='final' ? 'final-figure' : 'learning-figure'); container.dataset.figure=key; container.innerHTML=figureMap[key]||''; }
 
+let aiIdleTimer = null;
+const AI_IDLE_MESSAGES = [
+  '학습 패턴을 분석 중입니다.',
+  '현재 문항의 응답 흐름을 확인하고 있습니다.',
+  '필요한 경우 AI 힌트를 요청해 주세요.',
+  '문항 난이도를 조정 중입니다.'
+];
+
+function wrapHintText(text, maxLen=18){
+  const raw = String(text || '').replace(/\s+/g, ' ').trim();
+  if(!raw) return '';
+  const words = raw.split(' ');
+  const lines = [];
+  let line = '';
+  for(const word of words){
+    if(!line){
+      if(word.length > maxLen){
+        for(let i=0;i<word.length;i+=maxLen) lines.push(word.slice(i,i+maxLen));
+        line = '';
+      } else line = word;
+      continue;
+    }
+    if((line + ' ' + word).length <= maxLen){
+      line += ' ' + word;
+    } else {
+      lines.push(line);
+      if(word.length > maxLen){
+        for(let i=0;i<word.length;i+=maxLen) lines.push(word.slice(i,i+maxLen));
+        line = '';
+      } else line = word;
+    }
+  }
+  if(line) lines.push(line);
+  return lines.join('\n');
+}
+
 function typeText(el, text, speed=18, done){
+  const full = String(text || '');
   el.textContent = '';
   let i = 0;
-  const full = String(text || '');
   function step(){
     el.textContent = full.slice(0, i);
     i += 1;
@@ -519,23 +561,54 @@ function typeText(el, text, speed=18, done){
   step();
 }
 
-function createAIHintItem(text, animate=true){
+function createAIHintItem(text, animate=true, mode='hint'){
   const item = document.createElement('div');
   item.className = 'hint-item show';
-  item.innerHTML = `<div class="ai-hint-stage"><div class="ai-robot-wrap"><img class="hint-avatar" src="robot_hint_present.png" alt="" aria-hidden="true"></div><div class="hint-bubble"><div class="body"></div></div></div>`;
-  const body = item.querySelector('.body');
+  const isIdle = mode === 'idle';
+  const imageSrc = isIdle ? 'robot_idle_presenting.png' : 'robot_hint_present.png';
+  item.innerHTML = `<div class="ai-hint-stage"><div class="ai-robot-wrap ${isIdle ? 'idle-robot' : ''}"><img class="hint-avatar" src="${imageSrc}" alt="" aria-hidden="true"></div><div class="hint-bubble ${isIdle ? 'idle' : ''}"><div class="body"><div class="ghost"></div><div class="typed"></div></div></div></div>`;
+  const ghost = item.querySelector('.ghost');
+  const typed = item.querySelector('.typed');
+  const prepared = isIdle ? String(text || '') : wrapHintText(text, 17);
+  ghost.textContent = prepared || '';
   if(animate){
     setTimeout(()=>{
-      typeText(body, text, 18, ()=>{
-        const btn = qs('learningHintBtn');
-        if(btn) btn.dataset.busy = '0';
+      typeText(typed, prepared, isIdle ? 24 : 17, ()=>{
+        if(isIdle){
+          typed.insertAdjacentHTML('beforeend', '<span class="ai-thinking-dots"><span></span><span></span><span></span></span>');
+        } else {
+          const btn = qs('learningHintBtn');
+          if(btn) btn.dataset.busy = '0';
+        }
       });
-    }, 720);
+    }, isIdle ? 560 : 700);
   } else {
     item.classList.add('instant');
-    body.textContent = text || '';
+    typed.textContent = prepared || '';
+    if(isIdle){
+      typed.insertAdjacentHTML('beforeend', '<span class="ai-thinking-dots"><span></span><span></span><span></span></span>');
+    }
   }
   return item;
+}
+
+function stopAIIdle(){
+  if(aiIdleTimer){
+    clearInterval(aiIdleTimer);
+    aiIdleTimer = null;
+  }
+}
+
+function startAIIdle(hintList){
+  stopAIIdle();
+  let idx = 0;
+  const render = (animate=true)=>{
+    hintList.innerHTML = '';
+    hintList.appendChild(createAIHintItem(AI_IDLE_MESSAGES[idx % AI_IDLE_MESSAGES.length], animate, 'idle'));
+    idx += 1;
+  };
+  render(false);
+  aiIdleTimer = setInterval(()=>render(true), 7200);
 }
 
 function renderLearning(){
@@ -554,9 +627,12 @@ function renderLearning(){
   renderFigure(qs('learningFigureBox'), set.figure, 'learning');
   const hintList = qs('learningHintList'); hintList.innerHTML='';
   if(state.hintsShown.length){
+    stopAIIdle();
     const latestIndex = state.hintsShown.length - 1;
-    const item=createAIHintItem(state.hintsShown[latestIndex], false);
+    const item=createAIHintItem(state.hintsShown[latestIndex], false, 'hint');
     hintList.appendChild(item);
+  } else {
+    startAIIdle(hintList);
   }
   qs('hintCountText').textContent = `남은 힌트 요청: ${3 - state.hintClicks}회`;
   qs('learningHintBtn').dataset.busy='0';
@@ -567,9 +643,10 @@ function renderLearning(){
     recordHintEvent(state, set.setId, state.hintClicks);
     const nextHint = set.hints[state.hintClicks-1] || '이 문항의 조건을 다시 확인해 보세요.';
     state.hintsShown.push(nextHint);
+    stopAIIdle();
     hintList.innerHTML='';
     qs('learningHintBtn').dataset.busy='1';
-    const item=createAIHintItem(nextHint, true);
+    const item=createAIHintItem(nextHint, true, 'hint');
     hintList.appendChild(item);
     qs('hintCountText').textContent = `남은 힌트 요청: ${3 - state.hintClicks}회`;
     saveState();
