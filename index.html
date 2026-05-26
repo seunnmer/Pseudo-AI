@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Non-functional AI 조건 데모</title>
+<title>과학 개념 학습 활동</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 :root{--bg:#f7f7f8;--panel:#fff;--soft:#f3f4f6;--line:#e5e7eb;--text:#111827;--muted:#6b7280;--accent:#10a37f;--accent-soft:#e8fff8;--blue:#2563eb;--blue-soft:#eff6ff;--radius:22px;--shadow:0 12px 32px rgba(15,23,42,.08);}
@@ -65,6 +65,14 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 .hint-item.show{display:block}
 .hint-item .num{font-size:13px;color:#2563eb;font-weight:700;margin-bottom:6px}
 .hint-item .body{font-size:15px;white-space:pre-line;min-height:20px}
+.ai-hint-message{display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;animation:hintFloatIn .42s ease both;}
+.hint-item{border:0;background:transparent;border-radius:0;padding:0;display:none;overflow:visible;}
+.hint-bubble{position:relative;flex:1;max-width:220px;background:#ffffff;border:1px solid #d9e6ff;border-radius:20px;padding:14px 15px;box-shadow:0 10px 24px rgba(37,99,235,.10);}
+.hint-bubble::after{content:"";position:absolute;right:-8px;bottom:22px;width:14px;height:14px;background:#fff;border-right:1px solid #d9e6ff;border-bottom:1px solid #d9e6ff;transform:rotate(-45deg);}
+.hint-bubble .body{font-size:15px;line-height:1.7;white-space:pre-line;min-height:24px;color:#111827;}
+.hint-avatar{width:78px;height:auto;flex:0 0 auto;align-self:flex-end;transform:scaleX(-1);filter:drop-shadow(0 8px 12px rgba(15,23,42,.12));}
+@keyframes hintFloatIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:980px){.hint-bubble{max-width:none}.hint-avatar{width:72px}}
 .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:4px}
 .progress{font-size:14px;color:var(--muted)}
 .math-box{font-size:34px;font-weight:800;text-align:center;padding:26px 10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:24px;margin-bottom:18px}
@@ -106,7 +114,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 <div class="system-toast" id="systemToast"><span class="spinner"></span><span id="systemToastText">학습 패턴을 분석 중입니다.</span></div>
 <div class="shell"><div class="container">
 
-<section class="screen centered active" id="screen-intro"><div class="card intro-landing-card"><div class="intro-landing-title">학습용 AI 시스템</div><button type="button" class="btn-primary intro-start-btn" id="introStartBtn">AI 학습 시작하기</button><img class="intro-robot" src="robot_start.png" alt="학습 도우미 로봇 캐릭터"></div></section>
+<section class="screen centered active" id="screen-intro"><div class="card intro-landing-card"><div class="intro-landing-title">학습용 AI 시스템</div><button type="button" class="btn-primary intro-start-btn" id="introStartBtn">AI 학습 시작하기</button></div></section>
 
 <section class="screen centered" id="screen-start-instruction"><div class="card"><div class="title">연구 시작 전 안내</div><div class="text">본 연구는 AI 기반 학습 환경에서 학습자가 과학 개념을 학습하고 문제를 해결하는 과정을 살펴보기 위한 연구입니다. 최근 온라인 학습 환경에서는 학습자의 응답과 행동 기록을 분석하여 필요한 도움을 제공하는 AI 학습 보조 시스템이 활용되고 있습니다. 본 연구에서도 이러한 AI 기반 학습 상황을 구현하여, 학습자가 AI의 도움을 받을 수 있는 환경에서 삼투와 확산 개념을 어떻게 학습하는지 확인하고자 합니다.
 
@@ -507,10 +515,8 @@ function renderLearning(){
   const hintList = qs('learningHintList'); hintList.innerHTML='';
   if(state.hintsShown.length){
     const latestIndex = state.hintsShown.length - 1;
-    const item=document.createElement('div'); item.className='hint-item show';
-    item.innerHTML=`<div class="hint-bubble-row"><img class="hint-avatar" src="robot_hint_present.png" alt="AI 튜터 캐릭터"><div class="hint-bubble"><div class="num">${latestIndex+1}단계 힌트</div><div class="body"></div></div></div>`;
+    const item=createAIHintItem(state.hintsShown[latestIndex], false);
     hintList.appendChild(item);
-    item.querySelector('.body').textContent=state.hintsShown[latestIndex];
   }
   qs('hintCountText').textContent = `남은 힌트 요청: ${3 - state.hintClicks}회`;
   qs('learningHintBtn').onclick = ()=>{
@@ -521,14 +527,10 @@ function renderLearning(){
     const nextHint = set.hints[state.hintClicks-1];
     state.hintsShown.push(nextHint);
     hintList.innerHTML='';
-    const item=document.createElement('div'); item.className='hint-item show';
-    item.innerHTML=`<div class="hint-bubble-row"><img class="hint-avatar" src="robot_hint_present.png" alt="AI 튜터 캐릭터"><div class="hint-bubble"><div class="num">${state.hintClicks}단계 힌트</div><div class="body"></div></div></div>`;
-    hintList.appendChild(item);
     qs('learningHintBtn').dataset.busy='1';
-    typeInto(item.querySelector('.body'), nextHint, ()=>{ qs('learningHintBtn').dataset.busy='0'; });
+    const item=createAIHintItem(nextHint, true);
+    hintList.appendChild(item);
     qs('hintCountText').textContent = `남은 힌트 요청: ${3 - state.hintClicks}회`;
-    if(set.setId===3) showToast('학습 패턴을 분석 중입니다.');
-    if(set.setId===6) showToast('난이도 조정 중입니다.');
     saveState();
   };
 }
@@ -600,7 +602,7 @@ function nextAction(){
   if(sid==='screen-pre-instruction'){ currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
   if(sid==='screen-pre-knowledge'){ studyData.preSurvey.priorKnowledge1 = checked('pk1'); studyData.preSurvey.priorKnowledge2 = checked('pk2'); studyData.preSurvey.preJOL = checked('prejol'); studyData.preSurvey.submittedAt = new Date().toISOString(); saveState(); currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
   if(sid==='screen-learning-instruction'){ studyData.learning.totalStart = new Date().toISOString(); renderLearning(); currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
-  if(sid==='screen-learning'){ const set=learningSets[learningIndex]; const state=getLearningState(set.setId); state.timeMs += Date.now() - currentSetEnterTime; state.completedAt = new Date().toISOString(); finalizeLearningState(set, state); saveState(); if([3,7,10,15].includes(set.setId)){ showToast(set.setId===7 || set.setId===15 ? '난이도 조정 중입니다.' : '학습 패턴을 분석 중입니다.'); } if(learningIndex < learningSets.length-1){ learningIndex += 1; renderLearning(); updateNextButton(); window.scrollTo({top:0,behavior:'smooth'}); return; } studyData.learning.totalEnd = new Date().toISOString(); studyData.learning.totalTimeMs = new Date(studyData.learning.totalEnd)-new Date(studyData.learning.totalStart); currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
+  if(sid==='screen-learning'){ const set=learningSets[learningIndex]; const state=getLearningState(set.setId); state.timeMs += Date.now() - currentSetEnterTime; state.completedAt = new Date().toISOString(); finalizeLearningState(set, state); saveState(); if(learningIndex < learningSets.length-1){ learningIndex += 1; renderLearning(); updateNextButton(); window.scrollTo({top:0,behavior:'smooth'}); return; } studyData.learning.totalEnd = new Date().toISOString(); studyData.learning.totalTimeMs = new Date(studyData.learning.totalEnd)-new Date(studyData.learning.totalStart); currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
   if(sid==='screen-postjol-instruction'){ currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
   if(sid==='screen-postjol'){ studyData.postJOL={submittedAt:new Date().toISOString(), learnedPercent:qs('pj1').value,reviewNeededPercent:qs('pj2').value,testPredictionPercent:qs('pj3').value,moreStudyMinutes:qs('pj4').value}; saveState(); currentScreenIndex += 1; return showScreen(getCurrentScreenId()); }
   if(sid==='screen-distractor-instruction'){ currentScreenIndex += 1; showScreen(getCurrentScreenId()); startDistractor(); return; }
