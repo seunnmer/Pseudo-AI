@@ -57,26 +57,28 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 .final-figure img,.final-figure svg{max-width:520px;max-height:320px}
 .inline-input{display:flex;align-items:center;gap:10px;max-width:220px}
 .inline-input input{width:130px}
-.hint-panel{position:sticky;top:20px;border:1px solid var(--line);border-radius:18px;padding:18px;background:#f8fbff;min-height:152px;overflow:visible}
+.hint-side{position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;overflow:visible}
+.hint-panel{border:1px solid var(--line);border-radius:18px;padding:18px;background:#f8fbff;min-height:118px;overflow:visible}
 .hint-btn{width:100%;background:#eef2ff;color:#1e3a8a}
 .hint-count{margin-top:10px;font-size:13px;color:var(--muted)}
-.hint-list{position:absolute;left:-74px;top:108px;width:420px;height:248px;margin-top:0;pointer-events:none;z-index:8;overflow:visible}
-.hint-item{display:none;position:relative;width:100%;height:100%;border:0;background:transparent;border-radius:0;padding:0;overflow:visible}
+.hint-list{position:relative;width:100%;min-height:246px;margin-top:0;pointer-events:none;z-index:8;overflow:visible}
+.hint-item{display:none;position:relative;width:100%;height:246px;border:0;background:transparent;border-radius:0;padding:0;overflow:visible}
 .hint-item.show{display:block}
-.ai-hint-stage{position:relative;width:100%;height:100%;overflow:visible}
-.ai-robot-wrap{position:absolute;right:12px;bottom:0;width:112px;height:92px;opacity:0;transform:translateY(28px) scale(.94);animation:robotSlideUp .48s cubic-bezier(.2,.8,.2,1) forwards}
-.hint-avatar{position:absolute;right:0;bottom:0;width:112px;height:auto;display:block;background:transparent;border:0;box-shadow:none;filter:drop-shadow(0 10px 14px rgba(15,23,42,.12));transform:none}
-.ai-robot-wrap::before{content:"";position:absolute;left:43px;top:23px;width:10px;height:13px;border-radius:999px;background:#bffcff;box-shadow:0 0 8px rgba(122,255,244,.9);z-index:2;animation:robotBlink 4.4s ease-in-out infinite 1.3s}
-.ai-robot-wrap::after{content:"";position:absolute;left:67px;top:23px;width:10px;height:13px;border-radius:999px;background:#bffcff;box-shadow:0 0 8px rgba(122,255,244,.9);z-index:2;animation:robotBlink 4.4s ease-in-out infinite 1.3s}
-.hint-bubble{position:absolute;right:96px;bottom:92px;max-width:272px;background:#fff;border:1px solid #d9e6ff;border-radius:20px;padding:15px 17px;box-shadow:0 14px 30px rgba(37,99,235,.13);opacity:0;transform:translateY(8px) scale(.98);animation:bubblePop .28s ease forwards .42s}
-.hint-bubble::after{content:"";position:absolute;right:18px;bottom:-8px;width:14px;height:14px;background:#fff;border-right:1px solid #d9e6ff;border-bottom:1px solid #d9e6ff;transform:rotate(45deg)}
-.hint-bubble .body{font-size:15px;line-height:1.7;white-space:pre-line;min-height:24px;color:#111827}
+.ai-hint-stage{position:relative;width:100%;height:246px;overflow:visible}
+.ai-robot-wrap{position:absolute;right:6px;bottom:0;width:106px;height:106px;opacity:0;transform:translateY(22px) scale(.96);z-index:2;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;animation:robotRise .44s cubic-bezier(.2,.8,.2,1) forwards}
+.hint-avatar{width:106px;height:auto;display:block;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important;transform:none!important;animation:robotIdle 2.6s ease-in-out infinite .9s}
+.ai-robot-wrap::before,.ai-robot-wrap::after{content:"";position:absolute;top:27px;width:10px;height:13px;border-radius:999px;background:#bffcff;box-shadow:0 0 8px rgba(122,255,244,.75);z-index:3;pointer-events:none;animation:robotBlink 4.2s ease-in-out infinite 1.6s}
+.ai-robot-wrap::before{left:41px}.ai-robot-wrap::after{left:62px}
+.hint-bubble{position:absolute;left:0;top:8px;width:calc(100% - 18px);max-width:318px;background:#fff;border:1px solid #d9e6ff;border-radius:22px;padding:17px 19px;box-sizing:border-box;box-shadow:0 10px 22px rgba(37,99,235,.08);opacity:0;transform:translateY(10px) scale(.98);z-index:3;animation:bubbleAppear .28s ease forwards .38s}
+.hint-bubble::after{content:"";position:absolute;right:42px;bottom:-9px;width:16px;height:16px;background:#fff;border-right:1px solid #d9e6ff;border-bottom:1px solid #d9e6ff;transform:rotate(45deg)}
+.hint-bubble .body{font-size:15px;line-height:1.75;white-space:pre-line;min-height:24px;color:#111827;word-break:keep-all}
 .hint-item.instant .ai-robot-wrap,.hint-item.instant .hint-bubble{opacity:1;transform:none;animation:none}
-.hint-item.instant .ai-robot-wrap::before,.hint-item.instant .ai-robot-wrap::after{animation:robotBlink 4.4s ease-in-out infinite 1.3s}
-@keyframes robotSlideUp{from{opacity:0;transform:translateY(28px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes bubblePop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes robotBlink{0%,88%,100%{transform:scaleY(1);height:13px;top:23px;opacity:.96}90%,93%{transform:scaleY(.18);height:3px;top:28px;opacity:.75}95%{transform:scaleY(1);height:13px;top:23px;opacity:.96}}
-@media(max-width:980px){.hint-list{position:relative;left:auto;top:auto;width:100%;height:230px;margin-top:12px}.ai-robot-wrap{right:0;width:94px}.hint-avatar{width:94px}.hint-bubble{right:84px;bottom:82px;max-width:230px}}
+.hint-item.instant .hint-avatar{animation:robotIdle 2.6s ease-in-out infinite}
+@keyframes robotRise{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes bubbleAppear{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes robotIdle{0%,100%{transform:translateY(0);filter:brightness(1)}50%{transform:translateY(-4px);filter:brightness(1.04)}}
+@keyframes robotBlink{0%,88%,100%{transform:scaleY(1);opacity:.88}90%,94%{transform:scaleY(.14);opacity:.62}96%{transform:scaleY(1);opacity:.88}}
+@media(max-width:980px){.hint-side{position:relative;top:auto}.hint-list{min-height:230px}.hint-item,.ai-hint-stage{height:230px}.ai-robot-wrap{right:0;width:94px}.hint-avatar{width:94px}.hint-bubble{width:calc(100% - 10px);max-width:none}}.ai-robot-wrap{right:0;width:94px}.hint-avatar{width:94px}.hint-bubble{right:84px;bottom:82px;max-width:230px}}
 .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:4px}
 .progress{font-size:14px;color:var(--muted)}
 .math-box{font-size:34px;font-weight:800;text-align:center;padding:26px 10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:24px;margin-bottom:18px}
@@ -152,7 +154,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 
 준비가 되면 화면 하단의 다음 버튼을 눌러 주세요.</div></div></section>
 
-<section class="screen" id="screen-learning"><div class="status-bar"><div class="status-dot" id="statusDot"></div><div>학습을 기록 중입니다</div></div><div class="card"><div class="learning-grid"><div><div class="question-pair"><div class="question-block"><div class="question-number" id="lq1Number"></div><div class="question-text" id="lq1Text"></div><div class="options" id="lq1Options"></div></div><div class="question-block"><div class="question-number" id="lq2Number"></div><div class="question-text" id="lq2Text"></div><div class="options" id="lq2Options"></div></div></div><div class="figure-box hidden" id="learningFigureBox"></div></div><div class="hint-panel"><button class="hint-btn" id="learningHintBtn">AI 힌트 요청</button><div class="hint-count" id="hintCountText">남은 힌트 요청: 3회</div><div class="hint-list" id="learningHintList"></div></div></div></div></section>
+<section class="screen" id="screen-learning"><div class="status-bar"><div class="status-dot" id="statusDot"></div><div>학습을 기록 중입니다</div></div><div class="card"><div class="learning-grid"><div><div class="question-pair"><div class="question-block"><div class="question-number" id="lq1Number"></div><div class="question-text" id="lq1Text"></div><div class="options" id="lq1Options"></div></div><div class="question-block"><div class="question-number" id="lq2Number"></div><div class="question-text" id="lq2Text"></div><div class="options" id="lq2Options"></div></div></div><div class="figure-box hidden" id="learningFigureBox"></div></div><div class="hint-side"><div class="hint-panel"><button class="hint-btn" id="learningHintBtn">AI 힌트 요청</button><div class="hint-count" id="hintCountText">남은 힌트 요청: 3회</div></div><div class="hint-list" id="learningHintList"></div></div></div></div></section>
 
 <section class="screen centered" id="screen-postjol-instruction"><div class="card"><div class="text">학습 단계가 종료되었습니다.
 이제 방금까지의 학습을 바탕으로 자신의 이해 수준과 학습 상태를 스스로 평가하게 됩니다.
@@ -520,7 +522,7 @@ function typeText(el, text, speed=18, done){
 function createAIHintItem(text, animate=true){
   const item = document.createElement('div');
   item.className = 'hint-item show';
-  item.innerHTML = `<div class="ai-hint-stage"><div class="hint-bubble"><div class="body"></div></div><div class="ai-robot-wrap"><img class="hint-avatar" src="robot_hint_present.png" alt=""></div></div>`;
+  item.innerHTML = `<div class="ai-hint-stage"><div class="ai-robot-wrap"><img class="hint-avatar" src="robot_hint_present.png" alt="" aria-hidden="true"></div><div class="hint-bubble"><div class="body"></div></div></div>`;
   const body = item.querySelector('.body');
   if(animate){
     setTimeout(()=>{
