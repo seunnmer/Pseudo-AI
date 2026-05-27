@@ -122,17 +122,32 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 @media (max-width: 980px){.learning-grid{grid-template-columns:1fr}.question-pair{grid-template-columns:1fr}.shell{padding:18px 18px 100px}.floating-next{right:16px;bottom:16px}.card{padding:20px}.question-text{font-size:18px}}
 
 /* intro landing screen */
-.intro-landing-card{width:min(760px,92vw);min-height:430px;padding:56px 56px 50px;border-radius:32px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
-.intro-landing-title{font-size:36px;font-weight:850;letter-spacing:-.04em;line-height:1.25;margin:0;position:relative;z-index:2;}
-.intro-start-btn{font-size:17px;padding:16px 30px;border-radius:999px;min-width:190px;position:relative;z-index:3;}
-@media(max-width:640px){.intro-landing-card{padding:42px 24px 38px;min-height:390px}.intro-landing-title{font-size:29px}}
+.intro-landing-card{width:min(820px,92vw);min-height:520px;padding:52px 56px 50px;border-radius:34px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 22%,#eef8ff 0%,#ffffff 34%,#f8fbff 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+.intro-landing-card::before{content:"";position:absolute;inset:44px 54px auto 54px;height:210px;border-radius:999px;background:linear-gradient(90deg,rgba(54,127,255,.06),rgba(16,163,127,.08),rgba(54,127,255,.06));filter:blur(4px);z-index:0;}
+.intro-ai-face{position:relative;z-index:2;width:132px;height:98px;margin-bottom:2px;animation:introFaceFloat 3.2s ease-in-out infinite;}
+.intro-ai-face img{position:absolute;left:50%;top:50%;max-width:132px;max-height:98px;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 10px 18px rgba(37,99,235,.12));}
+.intro-ai-face .face-smile{opacity:0;animation:introSmileSwap 4.8s ease-in-out infinite;}
+.intro-ai-face::before,.intro-ai-face::after{content:"";position:absolute;border:1px solid rgba(54,127,255,.18);border-radius:999px;inset:8px -28px;z-index:-1;animation:introOrbit 5.8s linear infinite;}
+.intro-ai-face::after{inset:18px -16px;border-color:rgba(16,163,127,.20);animation-duration:7.2s;animation-direction:reverse;}
+.intro-landing-title{font-size:38px;font-weight:850;letter-spacing:-.04em;line-height:1.25;margin:0;position:relative;z-index:2;color:#111827;}
+.intro-ai-chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:2px 0 8px;position:relative;z-index:2;}
+.intro-ai-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;background:#ffffff;border:1px solid #dbe7ff;color:#2f4b97;font-size:13px;font-weight:750;box-shadow:0 4px 12px rgba(37,99,235,.04)}
+.intro-ai-chip::before{content:"";width:7px;height:7px;border-radius:999px;background:#7ec9b3;box-shadow:0 0 0 3px rgba(126,201,179,.15)}
+.intro-start-btn{font-size:17px;padding:16px 30px;border-radius:999px;min-width:200px;position:relative;z-index:3;}
+.intro-mini-bars{display:flex;align-items:flex-end;gap:4px;height:20px;margin-top:2px;position:relative;z-index:2;opacity:.75}
+.intro-mini-bars span{width:5px;border-radius:999px;background:#7ec9b3;animation:introBar 1.25s ease-in-out infinite}.intro-mini-bars span:nth-child(1){height:8px}.intro-mini-bars span:nth-child(2){height:15px;animation-delay:.12s}.intro-mini-bars span:nth-child(3){height:11px;animation-delay:.24s}.intro-mini-bars span:nth-child(4){height:18px;animation-delay:.36s}.intro-mini-bars span:nth-child(5){height:9px;animation-delay:.48s}
+@keyframes introFaceFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes introSmileSwap{0%,38%,100%{opacity:0}46%,68%{opacity:1}}
+@keyframes introOrbit{to{transform:rotate(360deg)}}
+@keyframes introBar{0%,100%{transform:scaleY(.65);opacity:.45}50%{transform:scaleY(1.08);opacity:1}}
+@media(max-width:640px){.intro-landing-card{padding:42px 24px 38px;min-height:460px}.intro-landing-title{font-size:30px}.intro-ai-face{width:116px;height:86px}.intro-ai-face img{max-width:116px;max-height:86px}.intro-ai-chips{gap:8px}.intro-ai-chip{font-size:12px;padding:7px 10px}}
 </style>
 </head>
 <body>
 <div class="system-toast" id="systemToast"><span class="spinner"></span><span id="systemToastText">학습 패턴을 분석 중입니다.</span></div>
 <div class="shell"><div class="container">
 
-<section class="screen centered active" id="screen-intro"><div class="card intro-landing-card"><div class="intro-landing-title">학습용 AI 시스템</div><button type="button" class="btn-primary intro-start-btn" id="introStartBtn">AI 학습 시작하기</button></div></section>
+<section class="screen centered active" id="screen-intro"><div class="card intro-landing-card"><div class="intro-ai-face" aria-hidden="true"><img class="face-normal" src="robot_face_logo.png" alt=""><img class="face-smile" src="robot_face_smile_logo.png" alt=""></div><div class="intro-landing-title">학습용 AI 시스템</div><div class="intro-ai-chips" aria-hidden="true"><span class="intro-ai-chip">학습 기록 분석</span><span class="intro-ai-chip">맞춤형 힌트 제공</span><span class="intro-ai-chip">문항 반응 기반 조정</span></div><button type="button" class="btn-primary intro-start-btn" id="introStartBtn">AI 학습 시작하기</button><div class="intro-mini-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div></div></section>
 
 <section class="screen centered" id="screen-start-instruction"><div class="card"><div class="title">연구 시작 전 안내</div><div class="text">본 연구는 AI 기반 학습 환경에서 학습자가 과학 개념을 학습하고 문제를 해결하는 과정을 살펴보기 위한 연구입니다. 최근 온라인 학습 환경에서는 학습자의 응답과 행동 기록을 분석하여 필요한 도움을 제공하는 AI 학습 보조 시스템이 활용되고 있습니다. 본 연구에서도 이러한 AI 기반 학습 상황을 구현하여, 학습자가 AI의 도움을 받을 수 있는 환경에서 삼투와 확산 개념을 어떻게 학습하는지 확인하고자 합니다.
 
@@ -223,6 +238,8 @@ let currentSetEnterTime = null;
 let distractorEndTime = null;
 let distractorTimerId = null;
 let currentMath = null;
+let distractorSecretSpaceCount = 0;
+let distractorSecretSpaceTimer = null;
 
 const participantId = 'P_' + Date.now() + '_' + Math.floor(Math.random()*100000);
 const studyData = {
@@ -743,9 +760,47 @@ function renderFinal(){
   }
 }
 
-function startDistractor(){ studyData.distractor.start = new Date().toISOString(); generateMath(); distractorEndTime = Date.now() + 180000; if(distractorTimerId) clearInterval(distractorTimerId); distractorTimerId=setInterval(()=>{ if(Date.now() >= distractorEndTime){ clearInterval(distractorTimerId); studyData.distractor.end = new Date().toISOString(); saveState(); currentScreenIndex += 1; showScreen(getCurrentScreenId()); if(getCurrentScreenId()==='screen-final'){ studyData.finalTest.totalStart = new Date().toISOString(); renderFinal(); } } }, 500); setTimeout(()=>qs('mathAnswer').focus(),100); saveState(); }
+function finishDistractor(skipped=false){
+  if(distractorTimerId){ clearInterval(distractorTimerId); distractorTimerId = null; }
+  if(distractorSecretSpaceTimer){ clearTimeout(distractorSecretSpaceTimer); distractorSecretSpaceTimer = null; }
+  distractorSecretSpaceCount = 0;
+  if(!studyData.distractor.end) studyData.distractor.end = new Date().toISOString();
+  studyData.distractor.skippedBySecretKey = !!skipped;
+  studyData.distractor.actualDurationMs = studyData.distractor.start ? (new Date(studyData.distractor.end) - new Date(studyData.distractor.start)) : null;
+  saveState();
+  currentScreenIndex += 1;
+  showScreen(getCurrentScreenId());
+  if(getCurrentScreenId()==='screen-final'){
+    studyData.finalTest.totalStart = new Date().toISOString();
+    renderFinal();
+  }
+}
+function startDistractor(){
+  studyData.distractor.start = new Date().toISOString();
+  studyData.distractor.end = null;
+  studyData.distractor.skippedBySecretKey = false;
+  studyData.distractor.actualDurationMs = null;
+  distractorSecretSpaceCount = 0;
+  generateMath();
+  distractorEndTime = Date.now() + 180000;
+  if(distractorTimerId) clearInterval(distractorTimerId);
+  distractorTimerId=setInterval(()=>{ if(Date.now() >= distractorEndTime){ finishDistractor(false); } }, 500);
+  setTimeout(()=>qs('mathAnswer').focus(),100);
+  saveState();
+}
 function generateMath(){ const a=Math.floor(Math.random()*40)+10,b=Math.floor(Math.random()*40)+10; currentMath={a,b,correct:a+b,shownAt:Date.now()}; qs('mathPrompt').textContent=`${a} + ${b} = ?`; qs('mathAnswer').value=''; }
 qs('mathAnswer').addEventListener('keydown', e=>{ if(e.key==='Enter' && getCurrentScreenId()==='screen-distractor'){ studyData.distractor.responses.push({prompt:`${currentMath.a}+${currentMath.b}`,response:qs('mathAnswer').value,correct:Number(qs('mathAnswer').value)===currentMath.correct,rtMs:Date.now()-currentMath.shownAt,timestamp:new Date().toISOString()}); generateMath(); saveState(); } });
+document.addEventListener('keydown', e=>{
+  if(getCurrentScreenId() !== 'screen-distractor') return;
+  if(e.code !== 'Space') return;
+  e.preventDefault();
+  distractorSecretSpaceCount += 1;
+  if(distractorSecretSpaceTimer) clearTimeout(distractorSecretSpaceTimer);
+  distractorSecretSpaceTimer = setTimeout(()=>{ distractorSecretSpaceCount = 0; }, 1200);
+  if(distractorSecretSpaceCount >= 3){
+    finishDistractor(true);
+  }
+});
 
 function buildAIL(){ const c=qs('ailContainer'); c.innerHTML=''; aiLitItems.forEach((text,idx)=>{ const div=document.createElement('div'); div.className='field'; div.innerHTML=`<label>${idx+1}. ${text}</label><div class="likert-row" id="ail_${idx+1}"></div><div class="likert-labels"><span>전혀 그렇지 않다</span><span></span><span></span><span>보통이다</span><span></span><span></span><span>매우 그렇다</span></div>`; c.appendChild(div); renderLikert(`ail_${idx+1}`, `ail_${idx+1}`); }); }
 
