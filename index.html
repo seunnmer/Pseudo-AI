@@ -36,10 +36,18 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 .likert-option input{display:none}
 .likert-option.selected{border-color:var(--accent);background:#f0fdf9}
 .likert-labels{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
-.status-bar{display:flex;align-items:center;gap:12px;padding:10px 18px 10px 12px;border-radius:999px;background:#f3fbff;border:1px solid rgba(59,130,246,.14);width:max-content;margin-bottom:18px;font-weight:800;color:#1f3b6d;box-shadow:0 6px 18px rgba(15,23,42,.035)}
+.status-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 18px 10px 18px;border-radius:999px;background:#f3fbff;border:1px solid rgba(59,130,246,.14);width:max-content;max-width:100%;margin-bottom:18px;font-weight:800;color:#1f3b6d;box-shadow:0 6px 18px rgba(15,23,42,.035)}
 .status-logo-wrap{width:42px;height:42px;border-radius:999px;background:#ffffff;border:1px solid rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
 .status-logo{width:38px;height:32px;object-fit:contain;display:block;filter:none;transform:none}
 .status-title{font-size:18px;letter-spacing:-.02em;white-space:nowrap}
+.status-inline-note{display:none;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:#ffffff;border:1px solid #d7efe7;color:#315f54;font-size:14px;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.status-inline-note.show{display:flex}
+.status-mini-chart{display:inline-flex;align-items:flex-end;gap:3px;width:18px;height:14px;flex:none}
+.status-mini-chart span{display:block;width:4px;border-radius:999px;background:#7ec9b3;animation:statusBars 1.15s ease-in-out infinite}
+.status-mini-chart span:nth-child(1){height:6px;animation-delay:0s}
+.status-mini-chart span:nth-child(2){height:12px;animation-delay:.16s}
+.status-mini-chart span:nth-child(3){height:8px;animation-delay:.32s}
+@keyframes statusBars{0%,100%{transform:scaleY(.7);opacity:.45}50%{transform:scaleY(1.08);opacity:1}}
 .system-toast{position:fixed;top:26px;left:50%;transform:translateX(-50%);z-index:60;background:#0f172a;color:white;padding:16px 22px;border-radius:999px;box-shadow:0 18px 40px rgba(15,23,42,.25);display:none;align-items:center;gap:14px;font-weight:700}
 .spinner{width:22px;height:22px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#34d399;animation:spin 1s linear infinite;flex:none}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -82,7 +90,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 @keyframes bubbleAppear{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes robotIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .ai-thinking-dots{display:inline-flex;gap:3px;margin-left:4px;vertical-align:middle}.ai-thinking-dots span{width:4px;height:4px;border-radius:999px;background:#9bc9ba;opacity:.35;animation:dotPulse 1.1s infinite}.ai-thinking-dots span:nth-child(2){animation-delay:.16s}.ai-thinking-dots span:nth-child(3){animation-delay:.32s}@keyframes dotPulse{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
-@media(max-width:980px){.hint-side{position:relative;top:auto;min-width:0;max-width:none}.hint-list{min-height:300px}.hint-item,.ai-hint-stage{min-height:300px}.hint-bubble,.hint-bubble.idle{width:100%;max-width:100%;margin:12px 0}.ai-robot-wrap,.ai-robot-wrap.idle-robot{width:104px;margin-right:28px}}
+@media(max-width:980px){.status-bar{width:100%;border-radius:24px}.status-inline-note{width:100%;white-space:normal}.hint-side{position:relative;top:auto;min-width:0;max-width:none}.hint-list{min-height:300px}.hint-item,.ai-hint-stage{min-height:300px}.hint-bubble,.hint-bubble.idle{width:100%;max-width:100%;margin:12px 0}.ai-robot-wrap,.ai-robot-wrap.idle-robot{width:104px;margin-right:28px}}
 .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:4px}
 .progress{font-size:14px;color:var(--muted)}
 .math-box{font-size:34px;font-weight:800;text-align:center;padding:26px 10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:24px;margin-bottom:18px}
@@ -158,7 +166,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 
 준비가 되면 화면 하단의 다음 버튼을 눌러 주세요.</div></div></section>
 
-<section class="screen" id="screen-learning"><div class="status-bar"><div class="status-logo-wrap"><img class="status-logo" id="statusLogo" src="robot_face_logo.png" alt="학습용 AI 시스템 로고"></div><div class="status-title">학습용 AI 시스템</div></div><div class="card"><div class="learning-grid"><div><div class="question-pair"><div class="question-block"><div class="question-number" id="lq1Number"></div><div class="question-text" id="lq1Text"></div><div class="options" id="lq1Options"></div></div><div class="question-block"><div class="question-number" id="lq2Number"></div><div class="question-text" id="lq2Text"></div><div class="options" id="lq2Options"></div></div></div><div class="figure-box hidden" id="learningFigureBox"></div></div><div class="hint-side"><div class="hint-panel"><button class="hint-btn" id="learningHintBtn">AI 힌트 요청</button><div class="hint-count" id="hintCountText">남은 힌트 요청: 3회</div></div><div class="hint-list" id="learningHintList"></div></div></div></div></section>
+<section class="screen" id="screen-learning"><div class="status-bar"><div class="status-title">학습용 AI 시스템</div><div class="status-logo-wrap"><img class="status-logo" id="statusLogo" src="robot_face_logo.png" alt="학습용 AI 시스템 로고"></div><div class="status-inline-note" id="statusInlineNote" aria-live="polite"><span class="status-mini-chart" aria-hidden="true"><span></span><span></span><span></span></span><span id="statusInlineText"></span></div></div><div class="card"><div class="learning-grid"><div><div class="question-pair"><div class="question-block"><div class="question-number" id="lq1Number"></div><div class="question-text" id="lq1Text"></div><div class="options" id="lq1Options"></div></div><div class="question-block"><div class="question-number" id="lq2Number"></div><div class="question-text" id="lq2Text"></div><div class="options" id="lq2Options"></div></div></div><div class="figure-box hidden" id="learningFigureBox"></div></div><div class="hint-side"><div class="hint-panel"><button class="hint-btn" id="learningHintBtn">AI 힌트 요청</button><div class="hint-count" id="hintCountText">남은 힌트 요청: 3회</div></div><div class="hint-list" id="learningHintList"></div></div></div></div></section>
 
 <section class="screen centered" id="screen-postjol-instruction"><div class="card"><div class="text">학습 단계가 종료되었습니다.
 이제 방금까지의 학습을 바탕으로 자신의 이해 수준과 학습 상태를 스스로 평가하게 됩니다.
@@ -509,20 +517,52 @@ function renderFigure(container,key,mode='learning'){ if(!key){ container.classL
 
 let aiStatusTimer = null;
 const AI_STATUS_MESSAGES = [
-  '응답 변화를 바탕으로 학습 패턴을 분석하고 있습니다.',
-  '현재 응답을 기준으로 문항 난이도를 조정 중입니다.',
-  '선택 변화에 따라 다음 힌트 수준을 조정하고 있습니다.',
-  '현재 문항의 응답 흐름을 확인하고 있습니다.'
+  '난이도 조정 중입니다.',
+  '학습 패턴 분석 중이에요.'
 ];
 function pickAIStatusMessage(state){
   const n = Number(state?.setId || 0) + Number(state?.selectionChangeCount || 0);
   return AI_STATUS_MESSAGES[n % AI_STATUS_MESSAGES.length];
 }
-function stopAIStatus(){
+function hideHeaderStatus(immediate=false){
+  const note = qs('statusInlineNote');
+  if(!note) return;
   if(aiStatusTimer){
     clearTimeout(aiStatusTimer);
     aiStatusTimer = null;
   }
+  if(immediate){
+    note.classList.remove('show');
+    note.style.opacity = '';
+    note.style.transform = '';
+    return;
+  }
+  if(note.classList.contains('show')){
+    gsap.to(note,{opacity:0,y:-4,duration:.18,onComplete:()=>{
+      note.classList.remove('show');
+      note.style.opacity = '';
+      note.style.transform = '';
+    }});
+  }
+}
+function showHeaderStatus(message){
+  const note = qs('statusInlineNote');
+  const text = qs('statusInlineText');
+  if(!note || !text) return;
+  if(aiStatusTimer){
+    clearTimeout(aiStatusTimer);
+    aiStatusTimer = null;
+  }
+  text.textContent = message || '';
+  note.classList.add('show');
+  gsap.fromTo(note,{opacity:0,y:-4},{opacity:1,y:0,duration:.22,ease:'power2.out'});
+  aiStatusTimer = setTimeout(()=>{
+    hideHeaderStatus(false);
+    aiStatusTimer = null;
+  }, 2800);
+}
+function stopAIStatus(){
+  hideHeaderStatus(true);
 }
 function wrapHintText(text, maxLen=18){
   const raw = String(text || '').replace(/\s+/g, ' ').trim();
@@ -596,18 +636,10 @@ function createAIHintItem(text, animate=true, mode='hint'){
   }
   return item;
 }
-function showAIStatus(hintList, message, state){
-  if(!hintList || !state) return;
-  if(state.hintsShown && state.hintsShown.length) return;
-  stopAIStatus();
-  hintList.innerHTML = '';
-  hintList.appendChild(createAIHintItem(message, true, 'idle'));
+function showAIStatus(message, state){
+  if(!state) return;
   state.aiStatusShown = true;
-  aiStatusTimer = setTimeout(()=>{
-    if(state.hintsShown && state.hintsShown.length) return;
-    hintList.innerHTML = '';
-    aiStatusTimer = null;
-  }, 4300);
+  showHeaderStatus(message);
 }
 function renderLearning(){
   const set = learningSets[learningIndex];
@@ -619,6 +651,7 @@ function renderLearning(){
   qs('lq1Text').textContent=set.q1.text; qs('lq2Text').textContent=set.q2.text;
   const hintList = qs('learningHintList');
   stopAIStatus();
+  if(!(state.selectionChangeCount > 0)) state.aiStatusShown = false;
   const handleSelect = (qid, idx)=>{
     const prev = state.answers[qid];
     const changed = prev !== undefined && prev !== null && prev !== idx;
@@ -629,8 +662,8 @@ function renderLearning(){
     }
     saveState();
     rerender();
-    if(changed && !state.aiStatusShown && !(state.hintsShown && state.hintsShown.length)){
-      showAIStatus(hintList, pickAIStatusMessage(state), state);
+    if(changed && !state.aiStatusShown){
+      showAIStatus(pickAIStatusMessage(state), state);
       saveState();
     }
     updateNextButton();
