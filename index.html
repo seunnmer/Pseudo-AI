@@ -94,6 +94,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 .section-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:4px}
 .progress{font-size:14px;color:var(--muted)}
 .math-box{font-size:34px;font-weight:800;text-align:center;padding:26px 10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:24px;margin-bottom:18px}
+.math-enter-hint{margin-top:8px;font-size:13px;line-height:1.35;color:#6b7280;text-align:center;white-space:nowrap}
 .transfer-prompt{background:#fafafa;border:1px solid var(--line);border-radius:18px;padding:18px;white-space:pre-line;margin-bottom:14px;text-align:left}
 .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:1080px;margin:0 auto}
 .transfer-12-wrap{display:flex;flex-direction:column;gap:18px;max-width:1120px;margin:0 auto}
@@ -180,7 +181,7 @@ button{border:none;border-radius:16px;padding:14px 22px;font-size:16px;font-weig
 최대한 빠르고 정확하게 풀어 주세요.
 답을 입력한 후 Enter 키를 누르면 다음 문제가 제시되고, 3분이 지나면 자동으로 종료됩니다.</div></div></section>
 
-<section class="screen centered" id="screen-distractor"><div class="card"><div class="math-box" id="mathPrompt">12 + 7 = ?</div><div class="field" style="max-width:240px;margin:0 auto"><input type="number" id="mathAnswer" autocomplete="off"><div class="math-enter-hint">다음 문제로 넘어가려면 Enter 키를 눌러주세요</div></div></div></section>
+<section class="screen centered" id="screen-distractor"><div class="card"><div class="math-box" id="mathPrompt">12 + 7 = ?</div><div class="field" style="max-width:360px;margin:0 auto"><input type="number" id="mathAnswer" autocomplete="off"><div class="math-enter-hint">다음 문제로 넘어가려면 Enter 키를 눌러주세요</div></div></div></section>
 
 <section class="screen centered" id="screen-final-instruction"><div class="card"><div class="title">최종 시험 안내</div><div class="text">지금부터는 학습한 내용에 대해 시험을 치르게 됩니다.
 각 문항은 한 번만 제시되며, 이전 문항으로 돌아갈 수 없습니다.
@@ -518,9 +519,14 @@ function renderFigure(container,key,mode='learning'){ if(!key){ container.classL
 let aiStatusTimer = null;
 const AI_STATUS_MESSAGES = [
   '난이도 조정 중입니다.',
-  '학습 패턴 분석 중이에요.'
+  '학습 패턴 분석 중이에요.',
+  '풀이 기록 반영 중입니다.',
+  '응답 패턴을 확인 중입니다.'
 ];
 function pickAIStatusMessage(state){
+  if(Number(state?.selectionChangeCount || 0) >= 2){
+    return '응답 변화를 기록하고 있어요.';
+  }
   const n = Number(state?.setId || 0) + Number(state?.selectionChangeCount || 0);
   return AI_STATUS_MESSAGES[n % AI_STATUS_MESSAGES.length];
 }
