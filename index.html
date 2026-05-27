@@ -226,7 +226,7 @@ let currentMath = null;
 
 const participantId = 'P_' + Date.now() + '_' + Math.floor(Math.random()*100000);
 const studyData = {
-  version:'odca_nonfunctional_ai_demo_416_v22_supabase_full',
+  version:'odca_nonfunctional_ai_demo_416_v40_status_parallel',
   participantId,
   condition:'Non-functional AI',
   startedAt:new Date().toISOString(),
@@ -524,11 +524,12 @@ const AI_STATUS_MESSAGES = [
   '응답 패턴을 확인 중입니다.'
 ];
 function pickAIStatusMessage(state){
-  if(Number(state?.selectionChangeCount || 0) >= 2){
-    return '응답 변화를 기록하고 있어요.';
-  }
   const n = Number(state?.setId || 0) + Number(state?.selectionChangeCount || 0);
   return AI_STATUS_MESSAGES[n % AI_STATUS_MESSAGES.length];
+}
+function hasRepeatedAnswerChange(state){
+  const counts = state?.answerChangeCounts || {};
+  return Object.values(counts).some(v => Number(v || 0) >= 2);
 }
 function hideHeaderStatus(immediate=false){
   const note = qs('statusInlineNote');
@@ -663,14 +664,24 @@ function renderLearning(){
     const changed = prev !== undefined && prev !== null && prev !== idx;
     state.answers[qid]=idx;
     recordQuestionSelection(state, qid, idx);
+    let repeatedChange = false;
     if(changed){
       state.selectionChangeCount = (state.selectionChangeCount || 0) + 1;
+      if(!state.answerChangeCounts) state.answerChangeCounts = {};
+      state.answerChangeCounts[qid] = Number(state.answerChangeCounts[qid] || 0) + 1;
+      repeatedChange = Number(state.answerChangeCounts[qid] || 0) >= 2;
     }
     saveState();
     rerender();
-    if(changed && !state.aiStatusShown){
-      showAIStatus(pickAIStatusMessage(state), state);
-      saveState();
+    if(changed){
+      if(repeatedChange && !state.responseChangeStatusShown){
+        showAIStatus('응답 변화를 기록하고 있어요.', state);
+        state.responseChangeStatusShown = true;
+        saveState();
+      } else if(!state.aiStatusShown){
+        showAIStatus(pickAIStatusMessage(state), state);
+        saveState();
+      }
     }
     updateNextButton();
   };
@@ -695,7 +706,6 @@ function renderLearning(){
     recordHintEvent(state, set.setId, state.hintClicks);
     const nextHint = set.hints[state.hintClicks-1] || '이 문항의 조건을 다시 확인해 보세요.';
     state.hintsShown.push(nextHint);
-    stopAIStatus();
     hintList.innerHTML='';
     qs('learningHintBtn').dataset.busy='1';
     const item=createAIHintItem(nextHint, true, 'hint');
